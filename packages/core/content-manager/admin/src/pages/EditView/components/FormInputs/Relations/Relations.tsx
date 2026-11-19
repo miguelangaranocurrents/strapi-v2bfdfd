@@ -812,7 +812,15 @@ const RelationModalWithContext = ({
           })}
           onLoadMore={handleLoadMore}
           textValue={textValue}
-          onChange={handleChange}
+          onChange={(relationId) => {
+            /**
+             * The search that produced the selected option is no longer relevant, so clear it.
+             * Otherwise the remaining options are only fetched once the dropdown is reopened,
+             * and until then the stale (empty) search result is shown as "No relations available".
+             */
+            handleSearch('');
+            handleChange(relationId);
+          }}
           onTextValueChange={(text) => {
             setTextValue(text);
           }}
